@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Subway Surfers Guide | Learn It Fast, Score Higher</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&family=Rubik:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg-0:#0a0a14;
+    --bg-1:#13131f;
+    --panel:#1b1b2c;
+    --panel-2:#20213a;
+    --line:#33334d;
+    --text:#f2efe6;
+    --text-dim:#9a9ab0;
+    --orange:#ff6b35;
+    --gold:#ffc93c;
+    --cyan:#00e0d6;
+    --pink:#ff2e6e;
+    --tape-y:#ffcc00;
+    --tape-k:#141420;
+    --radius:14px;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--bg-0);
+    color:var(--text);
+    font-family:'Rubik',sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3,.display{
+    font-family:'Baloo 2',sans-serif;
+    font-weight:800;
+    letter-spacing:.5px;
+    margin:0;
+  }
+  a{color:inherit;}
+  .wrap{max-width:1080px;margin:0 auto;padding:0 24px;}
+
+  /* ---------- tape motif ---------- */
+  .tape{
+    height:14px;
+    background:repeating-linear-gradient(
+      -45deg,
+      var(--tape-y) 0 18px,
+      var(--tape-k) 18px 36px
+    );
+    box-shadow:0 0 0 1px rgba(0,0,0,.4);
+  }
+
+  /* ---------- nav ---------- */
+  nav{
+    position:sticky;top:0;z-index:50;
+    background:rgba(10,10,20,.88);
+    backdrop-filter:blur(8px);
+    border-bottom:1px solid var(--line);
+  }
+  nav .wrap{
+    display:flex;align-items:center;justify-content:space-between;
+    height:64px;
+  }
+  .logo{
+    font-family:'Baloo 2',sans-serif;font-weight:800;font-size:20px;
+    color:var(--gold);
+    display:flex;align-items:center;gap:8px;
+  }
+  .logo span{color:var(--orange);}
+  .navlinks{display:flex;gap:26px;font-size:14px;font-weight:600;color:var(--text-dim);}
+  .navlinks a{text-decoration:none;transition:color .2s;position:relative;padding-bottom:4px;}
+  .navlinks a:hover{color:var(--cyan);}
+  .navlinks a.active{color:var(--gold);}
+  .navlinks a.active::after{
+    content:"";position:absolute;left:0;right:0;bottom:-2px;height:2px;
+    background:var(--gold);border-radius:2px;
+  }
+  @media (max-width:680px){.navlinks{display:none;}}
+
+  /* ---------- hero ---------- */
+  .hero{
+    position:relative;
+    padding:88px 0 0;
+    overflow:hidden;
+    background:
+      radial-gradient(circle at 15% 20%, rgba(255,107,53,.16), transparent 45%),
+      radial-gradient(circle at 85% 10%, rgba(0,224,214,.14), transparent 40%),
+      var(--bg-0);
+  }
+  .hero .wrap{
+    position:relative;z-index:2;
+    text-align:center;
+    padding-bottom:64px;
+  }
+  .eyebrow{
+    display:inline-flex;align-items:center;gap:8px;
+    font-size:13px;font-weight:700;color:var(--bg-0);
+    background:var(--gold);
+    padding:6px 14px;border-radius:999px;
+    margin-bottom:22px;
+    transform:rotate(-2deg);
+  }
+  .hero h1{
+    font-size:clamp(38px,7vw,72px);
+    line-height:1.05;
+    color:var(--text);
+  }
+  .hero h1 .hl{
+    color:var(--orange);
+    -webkit-text-stroke:2px var(--tape-k);
+  }
+  .hero p.sub{
+    max-width:560px;margin:22px auto 0;
+    color:var(--text-dim);
+    font-size:17px;line-height:1.7;
+  }
+  .cta-row{
+    margin-top:34px;
+    display:flex;gap:14px;justify-content:center;flex-wrap:wrap;
+  }
+  .btn{
+    font-family:'Baloo 2',sans-serif;font-weight:700;font-size:16px;
+    padding:14px 28px;border-radius:10px;
+    text-decoration:none;
+    border:2px solid transparent;
+    transition:transform .15s ease;
+    display:inline-block;
+  }
+  .btn:hover{transform:translateY(-2px);}
+  .btn.primary{background:var(--orange);color:#1a0d05;}
+  .btn.ghost{border-color:var(--line);color:var(--text);}
+
+  /* signature: animated track w/ train */
+  .track-scene{
+    position:relative;
+    height:96px;
+    border-top:3px solid var(--line);
+    background:
+      linear-gradient(var(--bg-1),var(--bg-1)) padding-box;
+    overflow:hidden;
+  }
+  .rail{
+    position:absolute;left:0;right:0;top:38px;height:6px;
+    background:repeating-linear-gradient(90deg,#4a4a63 0 26px, transparent 26px 46px);
+  }
+  .rail::before,.rail::after{
+    content:"";position:absolute;left:0;right:0;height:2px;background:#5c5c78;
+  }
+  .rail::before{top:-10px;}
+  .rail::after{top:14px;}
+  .train{
+    position:absolute;top:6px;left:-260px;
+    width:220px;height:64px;
+    animation:runtrain 6.5s linear infinite;
+  }
+  .train .body{
+    position:absolute;inset:0;
+    background:linear-gradient(180deg,var(--orange),#c9491d);
+    border-radius:10px 26px 10px 10px;
+    box-shadow:0 6px 0 rgba(0,0,0,.35);
+  }
+  .train .stripe{
+    position:absolute;left:0;right:0;top:34px;height:10px;
+    background:repeating-linear-gradient(90deg,var(--tape-y) 0 14px, var(--tape-k) 14px 28px);
+    opacity:.85;
+  }
+  .train .win{
+    position:absolute;top:10px;left:18px;width:34px;height:18px;
+    background:var(--cyan);border-radius:4px;box-shadow:44px 0 0 var(--cyan),88px 0 0 var(--cyan),132px 0 0 var(--cyan);
+    opacity:.9;
+  }
+  @keyframes runtrain{
+    0%{left:-260px;}
+    100%{left:110%;}
+  }
+  @media (prefers-reduced-motion:reduce){
+    .train{animation:none;left:20%;}
+  }
+
+  section{padding:76px 0;}
+  .section-head{
+    text-align:center;margin-bottom:46px;
+  }
+  .section-head .kicker{
+    font-size:13px;font-weight:700;color:var(--cyan);
+    text-transform:uppercase;letter-spacing:1.5px;
+  }
+  .section-head h2{
+    font-size:clamp(28px,4vw,40px);
+    margin-top:8px;
+  }
+  .section-head p{
+    color:var(--text-dim);margin-top:10px;font-size:15px;
+  }
+
+  /* ---------- gestures ---------- */
+  .gesture-grid{
+    display:grid;grid-template-columns:repeat(4,1fr);gap:18px;
+  }
+  @media (max-width:800px){.gesture-grid{grid-template-columns:repeat(2,1fr);}}
+  .g-card{
+    background:var(--panel);
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    padding:26px 18px;
+    text-align:center;
+    transition:border-color .2s, transform .2s;
+  }
+  .g-card:hover{border-color:var(--cyan);transform:translateY(-4px);}
+  .g-icon{
+    width:56px;height:56px;margin:0 auto 14px;
+    display:flex;align-items:center;justify-content:center;
+    border-radius:50%;
+    font-size:26px;
+    background:var(--panel-2);
+    border:2px solid var(--line);
+  }
+  .g-card h3{font-size:17px;margin-bottom:6px;}
+  .g-card p{font-size:13.5px;color:var(--text-dim);line-height:1.6;margin:0;}
+
+  /* ---------- obstacle warning cards ---------- */
+  .warn-grid{
+    display:grid;grid-template-columns:repeat(3,1fr);gap:16px;
+  }
+  @media (max-width:800px){.warn-grid{grid-template-columns:1fr;}}
+  .w-card{
+    position:relative;
+    background:var(--panel);
+    border-radius:var(--radius);
+    overflow:hidden;
+    border:1px solid var(--line);
+  }
+  .w-card .tape-top{height:10px;}
+  .w-card .body{padding:20px 20px 22px;}
+  .w-card h3{font-size:16px;color:var(--gold);display:flex;align-items:center;gap:8px;}
+  .w-card p{font-size:13.5px;color:var(--text-dim);line-height:1.65;margin:8px 0 0;}
+
+  /* ---------- combo meter ---------- */
+  .combo-wrap{
+    display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:center;
+  }
+  @media (max-width:800px){.combo-wrap{grid-template-columns:1fr;}}
+  .combo-list{list-style:none;margin:0;padding:0;}
+  .combo-list li{
+    padding:14px 0;border-bottom:1px solid var(--line);
+    display:flex;justify-content:space-between;gap:16px;font-size:14.5px;
+  }
+  .combo-list li b{color:var(--text);font-weight:600;}
+  .combo-list li span{color:var(--text-dim);text-align:right;}
+  .meter-card{
+    background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);
+    padding:28px;
+  }
+  .meter-card .top{display:flex;justify-content:space-between;font-size:13px;color:var(--text-dim);margin-bottom:10px;}
+  .meter{
+    height:20px;border-radius:999px;background:var(--panel-2);
+    border:1px solid var(--line);overflow:hidden;position:relative;
+  }
+  .meter i{
+    position:absolute;left:0;top:0;bottom:0;
+    background:linear-gradient(90deg,var(--pink),var(--orange),var(--gold));
+    width:72%;
+    animation:fill 2.6s ease-in-out infinite alternate;
+  }
+  @keyframes fill{from{width:35%;}to{width:88%;}}
+  .meter-note{margin-top:14px;font-size:13px;color:var(--text-dim);line-height:1.7;}
+  .multiplier-tag{
+    display:inline-block;margin-top:16px;
+    background:var(--gold);color:var(--bg-0);
+    font-family:'Baloo 2',sans-serif;font-weight:800;
+    padding:4px 12px;border-radius:8px;font-size:14px;
+    transform:rotate(-2deg);
+  }
+
+  /* ---------- powerups table ---------- */
+  .pu-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;}
+  @media (max-width:800px){.pu-grid{grid-template-columns:1fr;}}
+  .pu-card{
+    display:flex;gap:16px;
+    background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);
+    padding:20px;
+  }
+  .pu-icon{
+    flex:0 0 52px;height:52px;border-radius:12px;
+    display:flex;align-items:center;justify-content:center;font-size:24px;
+    background:var(--panel-2);border:1px solid var(--line);
+  }
+  .pu-body h3{font-size:16px;margin-bottom:4px;}
+  .pu-body .tag{font-size:11.5px;color:var(--bg-0);background:var(--cyan);
+    padding:2px 8px;border-radius:999px;font-weight:700;display:inline-block;margin-bottom:6px;}
+  .pu-body p{font-size:13.5px;color:var(--text-dim);line-height:1.6;margin:0;}
+
+  footer{
+    border-top:1px solid var(--line);
+    padding:36px 0;
+    text-align:center;
+    color:var(--text-dim);
+    font-size:13px;
+  }
+  footer b{color:var(--gold);}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap">
+    <div class="logo">🚇 Subway <span>Surfers</span> Guide</div>
+    <div class="navlinks">
+      <a href="#start">Quick Start</a>
+      <a href="#avoid">Dodging Obstacles</a>
+      <a href="#score">Scoring Tips</a>
+      <a href="#items">Power-Ups</a>
+    </div>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="eyebrow">MVP Guide · More Sections Coming</div>
+    <h1>Dodge the Trains,<br><span class="hl">Climb</span> the Leaderboard</h1>
+    <p class="sub">Four swipes, three obstacle types, one scoring system — read this once and go from "crashing every run" to "can't stop scrolling my high score."</p>
+    <div class="cta-row">
+      <a href="#start" class="btn primary">Learn the Controls</a>
+      <a href="#score" class="btn ghost">Jump to Scoring Tips</a>
+    </div>
+  </div>
+  <div class="track-scene" aria-hidden="true">
+    <div class="rail"></div>
+    <div class="train">
+      <div class="body"></div>
+      <div class="win"></div>
+      <div class="stripe"></div>
+    </div>
+  </div>
+</header>
+
+<section id="start">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="kicker">Step 1</div>
+      <h2>Learn It in 3 Seconds: 4 Swipes</h2>
+      <p>The whole game runs on these four moves. Get the muscle memory down before you worry about strategy.</p>
+    </div>
+    <div class="gesture-grid">
+      <div class="g-card">
+        <div class="g-icon">⬆️</div>
+        <h3>Swipe Up · Jump</h3>
+        <p>Clears barriers and hops onto train roofs. Jump a half-beat early so you don't land right on a car's edge.</p>
+      </div>
+      <div class="g-card">
+        <div class="g-icon">⬇️</div>
+        <h3>Swipe Down · Roll</h3>
+        <p>Ducks under low signs and tunnel mouths. Rolling has recovery lag, so don't chain it between two obstacles.</p>
+      </div>
+      <div class="g-card">
+        <div class="g-icon">⬅️</div>
+        <h3>Swipe Left · Lane Left</h3>
+        <p>One of three lanes. When a train's coming from a side track, switch a beat early instead of at the last second.</p>
+      </div>
+      <div class="g-card">
+        <div class="g-icon">➡️</div>
+        <h3>Swipe Right · Lane Right</h3>
+        <p>Same idea, mirrored. Train your eyes to look ahead instead of at your feet — it buys you an extra reaction beat.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="tape"></div>
+
+<section id="avoid">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="kicker">Step 2</div>
+      <h2>Dodging Guide: 3 Obstacle Types</h2>
+      <p>90% of crashes come from these three situations. Learn the pattern and you'll react before you even think.</p>
+    </div>
+    <div class="warn-grid">
+      <div class="w-card">
+        <div class="tape tape-top"></div>
+        <div class="body">
+          <h3>🚆 Oncoming / Side Trains</h3>
+          <p>See a headlight flash or hear the horn — decide instantly whether to jump on top or switch lanes. If two adjacent tracks are both blocked, dodge toward the open lane instead of forcing a jump.</p>
+        </div>
+      </div>
+      <div class="w-card">
+        <div class="tape tape-top"></div>
+        <div class="body">
+          <h3>🚧 Barriers & Poles</h3>
+          <p>Low barriers: just jump. High barriers: a hoverboard lets you smash straight through without slowing down. Without one, don't freeze right in front of it — decide a screen ahead.</p>
+        </div>
+      </div>
+      <div class="w-card">
+        <div class="tape tape-top"></div>
+        <div class="body">
+          <h3>🚦 Low Signs & Signals</h3>
+          <p>Roll under them. The roll's invincibility window is short, so don't rely on it to tank a chain of obstacles — you'll still need to switch lanes.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="tape"></div>
+
+<section id="score">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="kicker">Step 3</div>
+      <h2>Scoring Tips: Where the Points Actually Come From</h2>
+      <p>The gap between casual players and high scorers almost always comes down to this system.</p>
+    </div>
+    <div class="combo-wrap">
+      <ul class="combo-list">
+        <li><b>Distance run</b><span>Base score climbs automatically the longer you survive — don't slow down just to weave for coins</span></li>
+        <li><b>Coin streaks</b><span>Individual coins are worth little, but a magnet can fill an entire lane in seconds</span></li>
+        <li><b>Hoverboard riding</b><span>Faster movement plus one free hit — score climbs quicker while it's active</span></li>
+        <li><b>Mission bonuses</b><span>Finishing a run's mission (like "jump 20 times") gives a one-time boost — grab it along the way, don't detour</span></li>
+      </ul>
+      <div class="meter-card">
+        <div class="top"><span>Current Combo Strength</span><span>COMBO</span></div>
+        <div class="meter"><i></i></div>
+        <p class="meter-note">Magnet, hoverboard, and a fast straightaway stacked together is peak farming efficiency — save other power-ups so they land in that same window.</p>
+        <div class="multiplier-tag">No crashes ≈ score roughly doubles</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="tape"></div>
+
+<section id="items">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="kicker">Step 4</div>
+      <h2>Power-Up Cheat Sheet</h2>
+      <p>Picking one up isn't the same as using it well — timing matters more than quantity.</p>
+    </div>
+    <div class="pu-grid">
+      <div class="pu-card">
+        <div class="pu-icon">🧲</div>
+        <div class="pu-body">
+          <span class="tag">Collector</span>
+          <h3>Magnet</h3>
+          <p>Auto-pulls nearby coins. Save it for a coin-dense straightaway — popping it on an empty lane is wasted value.</p>
+        </div>
+      </div>
+      <div class="pu-card">
+        <div class="pu-icon">🎒</div>
+        <div class="pu-body">
+          <span class="tag">Flight</span>
+          <h3>Jetpack</h3>
+          <p>Brief flight plus invincibility — your lifesaver through the densest obstacle clusters. Save it for the toughest stretch.</p>
+        </div>
+      </div>
+      <div class="pu-card">
+        <div class="pu-icon">🛹</div>
+        <div class="pu-body">
+          <span class="tag">Shield</span>
+          <h3>Hoverboard</h3>
+          <p>Absorbs one hit and speeds you up. Worth summoning manually at the start of a run for a built-in safety net.</p>
+        </div>
+      </div>
+      <div class="pu-card">
+        <div class="pu-icon">✨</div>
+        <div class="pu-body">
+          <span class="tag">Multiplier</span>
+          <h3>2x Coins</h3>
+          <p>Timed doubling — pairs best with a magnet. Prioritize this one when you're grinding coins for a daily challenge.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <b>Subway Surfers Guide</b> · MVP version · Character/hoverboard collection and daily missions coming in the next update
+  </div>
+</footer>
+
+<script>
+  // Same-page anchor nav: smooth scroll + highlight the current section
+  (function(){
+    var navLinks = Array.prototype.slice.call(document.querySelectorAll('.navlinks a'));
+    var sections = navLinks.map(function(a){
+      return document.querySelector(a.getAttribute('href'));
+    });
+
+    function setActive(){
+      var pos = window.scrollY + 120;
+      var current = 0;
+      sections.forEach(function(sec, i){
+        if(sec && sec.offsetTop <= pos) current = i;
+      });
+      navLinks.forEach(function(a, i){
+        a.classList.toggle('active', i === current);
+      });
+    }
+
+    window.addEventListener('scroll', setActive, {passive:true});
+    setActive();
+  })();
+</script>
+</body>
+</html>
